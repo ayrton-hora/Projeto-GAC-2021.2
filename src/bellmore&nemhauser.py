@@ -38,7 +38,8 @@ def bellmore_and_nemhauser(N, M):
 
 	# Encontrando os vizinhos mais próximos
 	while len(neighborhood) < N:
-		closest_node = LBFS(N, M, current_node) # Busca em largura
+		# Busca em largura local
+		closest_node = LBFS(N, M, current_node) 
 		
 		# Verifica se o vizinho está presente no grafo e busca sua posição
 		neighbor = M.index(closest_node)
