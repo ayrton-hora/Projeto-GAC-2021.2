@@ -14,19 +14,15 @@ def minKey(N, keys, visited):
 # Algoritmo de Prim
 def prim(N, M):
 	keys = [sys.maxsize] * N
-
-	minimum_relation = [None] * N
-	
 	keys[0] = 0
-
-	shortest_distances = [False] * N
-
+	
+	minimum_relation = [None] * N
 	minimum_relation[0] = -1
-
+	
+	shortest_distances = [False] * N
 	for n in range(N):
 
 		minimum = minKey(N, keys, shortest_distances)
-
 		shortest_distances[minimum] = True
 
 		for m in range(N):
@@ -153,7 +149,7 @@ currentPath = os.path.dirname(os.path.realpath(__file__))
 
 # Realizando a leitura do arquivo de teste
 # file_name = str(input("Insira o nome do arquivo: "))
-file = open(currentPath[:-3] + "tests\\gr17.txt", "r")
+file = open(currentPath[:-3] + "tests\\five.txt", "r")
 file_data = file.readlines()
 
 # Determinando a quantidade de nós
