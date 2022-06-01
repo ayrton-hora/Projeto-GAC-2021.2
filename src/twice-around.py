@@ -50,12 +50,10 @@ def euler_cycle(N, M, G):
 				G[j][i] = G[i][j]
 	
 	# Gerando relação com os vértices
-	nodes = []
-	for n in range(N):
-		nodes.append(n)
+	nodes = N
 	
 	# Definindo o melhor ciclo (custo mínimo) com base na árvore geradora mínima
-	i = 0
+	i, j = 0, 0
 	
 	# Ciclo mínimo partindo do primeiro vértice
 	min_cycle = [0]
@@ -63,38 +61,43 @@ def euler_cycle(N, M, G):
 	# Relação dos vértices visitados
 	visited = [False] * N
 
-	# Variável de controle
-	num_nodes = len(nodes)
-	while num_nodes > 0:
+	# Variável de controle (back-tracking)
+	stuck = False
+	while nodes > 0:
 
 		# O menor valor do loop atual
 		current = [sys.maxsize, 0]
 
 		for j in range(N):
 			
+			# Caso fique preso no loop, sem referência de retorno, retorne ao vértice inicial
+			if stuck:
+				i = 0
+				stuck = False
+
 			# Caso não tenha sido visitado, não for nulo (na árvore geradora mínima) e for menor que o valor anterior, atualiza os valores
-			if (not visited[j]) and (G[i][j] is not None) and (G[i][j] < current[0]):
+			if (G[i][j] is not None) and (not visited[j]) and (G[i][j] < current[0]):
 				current[0] = G[i][j]
 				current[1] = j
 		
-		# Adiciona o menor valor ao ciclo
-		min_cycle.append(current[1])
-
-		# Marca como visitado
-		visited[current[1]] = True  # ou (current[1])
+		# Caso tenha encontrado um menor valor
+		if (current != [sys.maxsize, 0]):
+			# Adiciona o menor valor ao ciclo
+			min_cycle.append(current[1])
+			
+			# Marca como visitado
+			visited[current[1]] = True 
+			
+			# Coleta o peso da aresta
+			i = current[1]
 		
-		# Coleta o peso da aresta
-		i = current[1]
-		
-		# Busca o próximo vértice a ser analisado com base no passo anterior
-		try:
-			node_to_remove = nodes.index(i)
-			nodes.pop(node_to_remove)
-			num_nodes = len(nodes)
+			# Atualizando as variáveis de controle
+			nodes -= 1
 
-		except:
-			num_nodes -= 1
-			continue
+		# Realiza Back-tracking achando um próximo possível valor na hierarquia (regressivamente)
+		else:
+			i = j
+			stuck = True
 	
 	# Filtragem do ciclo encontrado, remove os vértices duplicados, gerando apenas os atalhos
 	visited = []
@@ -119,7 +122,7 @@ def twice_around(N, M):
 	Dobrar as arestas de T e construir um ciclo euleriano L = {li} , li ∈ N, em T
 	Enquanto L ≠ ∅ Fazer # Etapa Twice-Around – TW
 		Escolher sequencialmente lk ∈ L
-		Se lk ∉ H então H ← H ∪ {lk} 
+		Se lk ∉ H então H ← H U {lk} 
 		L ← L\{hk}
 	Fim_Enquanto
 	"""
@@ -148,8 +151,8 @@ start_time = time.time()
 currentPath = os.path.dirname(os.path.realpath(__file__))
 
 # Realizando a leitura do arquivo de teste
-# file_name = str(input("Insira o nome do arquivo: "))
-file = open(currentPath[:-3] + "tests\\five.txt", "r")
+file_name = str(input("Insira o nome do arquivo: "))
+file = open(currentPath[:-3] + "tests\\" + file_name, "r")
 file_data = file.readlines()
 
 # Determinando a quantidade de nós
@@ -159,7 +162,6 @@ num_nodes = len(file_data)
 filtred_data = []
 for line in range(len(file_data)):
 	filtred_line = re.sub("\n$", "", file_data[line])
-	# splitted_line = filtred_line.split(" ")
 	splitted_line = re.split("\s+", filtred_line)
 	column = 0
 	elements = []

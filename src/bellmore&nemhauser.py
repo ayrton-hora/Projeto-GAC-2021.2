@@ -62,7 +62,8 @@ start_time = time.time()
 currentPath = os.path.dirname(os.path.realpath(__file__))
 
 # Realizando a leitura do arquivo de teste
-file = open(currentPath[:-3] + "tests\\five.txt", "r")
+file_name = str(input("Insira o nome do arquivo: "))
+file = open(currentPath[:-3] + "tests\\" + file_name, "r")
 file_data = file.readlines()
 
 # Determinando a quantidade de nós
