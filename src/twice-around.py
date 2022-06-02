@@ -12,6 +12,9 @@ def minKey(N, keys, visited):
 	return min_index
 
 # Algoritmo de Prim
+# Implementação base utilizada anteriormente na disciplina
+# Algoritmo sofreu pequenas alterações
+# Refência base: https://www.geeksforgeeks.org/prims-minimum-spanning-tree-mst-greedy-algo-5/?ref=gcse
 def prim(N, M):
 	keys = [sys.maxsize] * N
 	keys[0] = 0
