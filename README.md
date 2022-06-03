@@ -4,6 +4,6 @@
 
 ### __Alunos:__
 
-> Ayrton Fernandes Hora
+> Ayrton Fernandes Hora - 201800083651
 
-> Micael Jordy
+> Micael Jordy - 201900051258
